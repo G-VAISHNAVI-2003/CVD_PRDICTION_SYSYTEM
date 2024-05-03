@@ -1,0 +1,128 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #a1b797; /* Light brown background */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* Set background image */
+            background-image: url(''); /* Replace with the actual path to your image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed; /* Ensure the background image stays fixed while scrolling */
+            animation: floatBackground 20s linear infinite; /* Animate the background image */
+        }
+
+        @keyframes floatBackground {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+        .cont {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: url("{% static 'cardioprediction/images/violet.jpg' %}") center center/cover;
+            z-index: -1; /* Ensure the background image is behind other content */
+        }
+        .container {
+            width: 100%; /* Set width to 100% of viewport width */
+            display: flex; /* Enable flexbox layout */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            overflow: hidden; /* Hide overflow */
+        }
+
+        .slider {
+            display: flex;
+            animation: slideImages 20s linear infinite; /* Adjust duration to ensure full cycle */
+        }
+
+        .visualization {
+            flex: 0 0 auto; /* Each visualization takes up its own content width */
+            margin-right: 5px; /* Reduce the margin between each visualization */
+            overflow: hidden; /* Hide overflow */
+            text-align: center; /* Center the text */
+            position: relative; /* Set position to relative for absolute positioning of headings */
+        }
+
+        .visualization img {
+            padding: 80px;
+            max-width: 45%; /* Adjust the percentage to make the images smaller */
+            display: block;
+            margin: 0 auto;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+            transition: transform 0.3s ease; /* Smooth transition effect */
+        }
+
+        .visualization img:hover {
+            transform: scale(1.1); /* Scale up the image on hover */
+        }
+
+        .visualization h2 {
+            margin-bottom: 10px; /* Adjust the spacing between image and heading */
+            color: #555; /* Dark gray color */
+            position: absolute; /* Position the headings absolutely */
+            top: 10px; /* Adjust the distance from the top */
+            left: 50%; /* Center the heading horizontally */
+            transform: translateX(-50%); /* Center the heading horizontally */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 5px 10px; /* Add padding to the heading */
+            border-radius: 5px; /* Add border radius */
+        }
+
+        @keyframes slideImages {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-400%); } /* Adjust for 5 images */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="slider" id="slider">
+            <div class="visualization">
+                <h2>Count Plot based on age and sex</h2>
+                <img src="data:image/png;base64,{{ count_plot_age_sex_target_image }}" alt="Count Plot">
+            </div>
+            <div class="visualization">
+                <h2>Feature Histograms</h2>
+                <img src="data:image/png;base64,{{ feature_histograms_image }}" alt="Feature Histograms">
+            </div>
+            <div class="visualization">
+                <h2>ROC Curve Comparison</h2>
+                <img src="data:image/png;base64,{{ roc_curve_comparison_image }}" alt="ROC Curve Comparison">
+            </div>
+            <div class="visualization">
+                <h2>Evaluation Comparison</h2>
+                <img src="data:image/png;base64,{{ evaluation_comparison_image }}" alt="Evaluation Comparison">
+            </div>
+            <div class="visualization">
+                <h2>Violin Plot of Feature Distribution</h2>
+                <img src="data:image/png;base64,{{ violin_plot_image }}" alt="Violin Plot">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('slider');
+
+        slider.addEventListener('mouseenter', () => {
+            slider.style.animationPlayState = 'paused';
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            slider.style.animationPlayState = 'running';
+        });
+    </script>
+</body>
+</html>
